@@ -34,3 +34,4 @@ function New-DscConfigData
     
     return $configData
 }
+Export-ModuleMember -Function New-DscConfigData
