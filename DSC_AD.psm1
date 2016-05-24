@@ -18,7 +18,7 @@ function New-DscConfigData
     $configData = @{
         AllNodes = @(
             @{
-                NodeName='*'
+                NodeName = "*"
             }
         )
     }
