@@ -8,6 +8,8 @@
         Filter Allows passing in a filter query string if desired.  Defaults to "*".
     .PARAM
         TargetGUID Allows selection of an AD attribute other than ObjectGUID for security purposes.  Defaults to "ObjectGUID".
+    .PARAM
+        AllNodesProperty Allows addition of extra AllNodes property values if desired.
     .EXAMPLE
         New-DscConfigData -ADAttribute "division"
 #>
@@ -25,10 +27,17 @@ function New-DscConfigData
         
         # TargetGUID allows selection of an AD attribute other than ObjectGUID for security purposes.  Defaults to "ObjectGUID".
         [Parameter()]
-        [string] $TargetGUID = "ObjectGUID"
+        [string] $TargetGUID = "ObjectGUID",
+        
+        # AllNodesProperty allows addition of extra AllNodes property values if desired.
+        [Parameter()]
+        [hashtable] $AllNodesProperty
     )
 
+    #Query AD for computer objects and appropriate properties
     $domainComputers = Get-ADComputer -Filter $Filter -Properties Name, $TargetGUID, $ADAttribute
+    
+    #Init DSC Configuration Data variable with AllNodes property
     $configData = @{
         AllNodes = @(
             @{
@@ -36,12 +45,20 @@ function New-DscConfigData
             }
         )
     }
+    
+    #Insert custom AllNodes property if passed. 
+    if ($AllNodesProperty)
+    {
+        $configData.Allnodes[0] += $AllNodesProperty
+    }
+    
+    #Populate Configuration Data variable with domain computers and properties
     $domainComputers | % { 
         $configData.AllNodes += @(
             @{
-                NodeName = $_.Name
+                NodeName        = $_.Name
                 ConfigurationID = $_.$TargetGUID
-                NodeType = $_.$ADAttribute
+                NodeType        = $_.$ADAttribute
             }
         )
     }
