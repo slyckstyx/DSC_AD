@@ -1,10 +1,10 @@
 ﻿#Requires -Version 4
 #Requires -Modules ActiveDirectory
 <#
-    .SYNOPSIS Returns Computer objects from AD in proper DSC Configuration Data format.
-
-    .DESCRIPTION Returns Computer objects from AD in proper DSC Configuration Data format.
-
+    .SYNOPSIS
+        Returns Computer objects from AD in proper DSC Configuration Data format.
+    .DESCRIPTION
+        Returns Computer objects from AD in proper DSC Configuration Data format.
     .PARAMETER
         ADAttribute Active Directory attribute that specifies the attribute the DSC NodeType is stored in.  Defaults to Description attribute.
     .PARAMETER
