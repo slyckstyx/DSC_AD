@@ -15,6 +15,8 @@
         AllNodesProperty Allows addition of extra AllNodes property values if desired.
     .EXAMPLE
         New-DscConfigData -ADAttribute "division"
+    .EXAMPLE
+        New-DscConfigData -TargetGUID "Description"
 #>
 function New-DscConfigData
 {
